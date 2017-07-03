@@ -87,6 +87,17 @@ module.exports = [
 	},
 
 	{
+		description: 'mangles catch clause argument named undefined',
+		input: `
+			try {
+				foo();
+			} catch ( undefined ) {
+				console.error( undefined )
+			}`,
+		output: `try{foo()}catch(r){console.error(r)}`
+	},
+
+	{
 		description: 'mangles function IDs consistently',
 		input: `
 			(function () {

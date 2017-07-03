@@ -9,6 +9,8 @@ export default class CatchClause extends Node {
 			parent
 		});
 
+		this.param.attachScope( program, this.scope );
+
 		extractNames( this.param ).forEach( node => {
 			this.scope.addDeclaration( node, 'param' );
 		});
