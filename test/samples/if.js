@@ -202,6 +202,18 @@ module.exports = [
 	},
 
 	{
+		description: 'removes statements in nested empty if block if possible 1',
+		input: `if ( foo ) {if ( bar ) {}}`,
+		output: ``
+	},
+
+	{
+		description: 'removes statements in nested empty if block if possible 2',
+		input: `if ( foo ) {} else {if ( bar ) {}}`,
+		output: ``
+	},
+
+	{
 		description: 'removes empty else in if block',
 		input: `
 			if ( foo ) {

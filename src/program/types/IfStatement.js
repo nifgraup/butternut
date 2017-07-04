@@ -116,6 +116,8 @@ export default class IfStatement extends Node {
 		}
 
 		this.test.minify( code, chars );
+		this.consequent.minify( code, chars );
+		if ( this.alternate ) this.alternate.minify( code, chars );
 
 		// if we're rewriting as &&, test must be higher precedence than 6
 		// to avoid being wrapped in parens. If ternary, 4
@@ -138,8 +140,6 @@ export default class IfStatement extends Node {
 			const canRemoveTest = this.test.type === 'Identifier' || this.test.getValue() !== UNKNOWN; // TODO can this ever happen?
 
 			if ( this.alternate && !this.alternate.isEmpty() ) {
-				this.alternate.minify( code, chars );
-
 				if ( this.alternate.type === 'BlockStatement' && this.alternate.body.length === 0 ) {
 					if ( canRemoveTest ) {
 						code.remove( this.start, this.end );
@@ -192,6 +192,7 @@ export default class IfStatement extends Node {
 				if ( canRemoveTest ) {
 					code.remove( this.start, this.end );
 					this.removed = true;
+					this.skip = true;
 				} else {
 					code.remove( this.start, this.test.start );
 					code.remove( this.test.end, this.end );
@@ -204,7 +205,6 @@ export default class IfStatement extends Node {
 		// special case - empty alternate
 		if ( this.alternate && this.alternate.isEmpty() ) {
 			// don't minify alternate
-			this.consequent.minify( code, chars );
 			code.remove( this.consequent.end, this.end );
 
 			if ( this.consequent.canSequentialise() ) {
@@ -225,9 +225,6 @@ export default class IfStatement extends Node {
 
 			return;
 		}
-
-		this.consequent.minify( code, chars );
-		if ( this.alternate ) this.alternate.minify( code, chars );
 
 		if ( this.canSequentialise() ) {
 			if ( this.inverted ) code.remove( this.test.start, this.test.start + 1 );
