@@ -36,7 +36,9 @@ export default class UnaryExpression extends Node {
 			const len = this.operator.length;
 			const start = this.start + len;
 
-			const insertWhitespace = len > 1 && this.argument.getLeftHandSide().type !== 'ParenthesizedExpression';
+			const node = this.argument.getLeftHandSide();
+			const insertWhitespace = (len > 1 && node !== 'ParenthesizedExpression') ||
+				(node.type === 'UnaryExpression' && node.operator === this.operator  && (this.operator === '+' || this.operator === '-'));
 			if ( insertWhitespace ) code.appendLeft( start, ' ' );
 
 			code.remove( start, this.argument.start );
