@@ -37,11 +37,19 @@ export default class UnaryExpression extends Node {
 			const start = this.start + len;
 
 			const node = this.argument.getLeftHandSide();
-			const insertWhitespace = (len > 1 && node !== 'ParenthesizedExpression') ||
-				(node.type === 'UnaryExpression' && node.operator === this.operator  && (this.operator === '+' || this.operator === '-'));
-			if ( insertWhitespace ) code.appendLeft( start, ' ' );
 
-			code.remove( start, this.argument.start );
+			const removeOperator = this.operator === '+' && node.type === 'UnaryExpression' &&
+				(node.operator === '+' || node.operator === '-' || node.operator === '~');
+
+			if (removeOperator) {
+				code.remove( this.start, this.argument.start );
+			} else {
+				const insertWhitespace = (len > 1 && node !== 'ParenthesizedExpression') ||
+					(node.type === 'UnaryExpression' && node.operator === this.operator  && (this.operator === '+' || this.operator === '-'));
+				if ( insertWhitespace ) code.appendLeft( start, ' ' );
+
+				code.remove( start, this.argument.start );
+			}
 
 			super.minify( code, chars );
 		}
