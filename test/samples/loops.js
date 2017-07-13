@@ -239,6 +239,12 @@ module.exports = [
 	},
 
 	{
+		description: 'correctly remove second unused let variable declaration',
+		input: `for ( let i = 1, j = 2; any_evaluation(); i++ ) {}`,
+		output: `for(let f=1;any_evaluation();f++);`
+	},
+
+	{
 		description: 'always preserve test in for-loop head',
 		input: `
 			for ( let i = 1; condition; i++ ) {

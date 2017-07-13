@@ -97,7 +97,7 @@ export default class VariableDeclaration extends Node {
 			first = false;
 		}
 
-		if ( this.end > c + 1 ) code.remove( c, this.end - 1 );
+		if ( this.end > c + 1 ) code.remove( c, this.kind === 'let' ? this.end : this.end  - 1 );
 
 		// we may have been asked to declare some additional vars, if they were
 		// declared inside blocks that have been removed
