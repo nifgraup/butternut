@@ -113,6 +113,12 @@ module.exports = [
 		description: 'removes empty block',
 		input: `{1}`,
 		output: ``
+	},
+
+	{
+		description: 'preserves used block',
+		input: `{b()}`,
+		output: `{b()}`
 	}
 
 	// TODO uncalled functions, unused variables...

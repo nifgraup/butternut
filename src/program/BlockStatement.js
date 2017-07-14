@@ -154,6 +154,14 @@ export default class BlockStatement extends Node {
 				maybeReturnNode.skip = true;
 			}
 		}
+
+		for ( let i = 0; i < this.body.length; i += 1 ) {
+			const node = this.body[i];
+			if ( !node.skip ) {
+				this.skip = false;
+				break;
+			}
+		}
 	}
 
 	// TODO remove block.isEmpty() in favour of block.skip — this is a hangover from
