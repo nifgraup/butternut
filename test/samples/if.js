@@ -421,6 +421,17 @@ module.exports = [
 	},
 
 	{
+		description: 'inverts nested ternary statement',
+		input: `
+			if ( !a )
+				if ( !b ) c
+				else d
+			else e`,
+		// TODO `a?e:b?d:c`
+		output: `!a?(b?d:c):e`
+	},
+
+	{
 		description: 'adds space after else if necessary',
 		input: `
 			function foo () {

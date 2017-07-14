@@ -91,7 +91,8 @@ export default class IfStatement extends Node {
 			}
 		}
 
-		this.inverted = this.test.type === 'UnaryExpression' && this.test.operator === '!';
+		this.inverted = this.test.type === 'UnaryExpression' && this.test.operator === '!' &&
+			(this.consequent.type !== 'IfStatement' || !this.consequent.inverted);
 	}
 
 	minify ( code, chars ) {
