@@ -161,5 +161,18 @@ module.exports = [
 				console.log(1);
 			}`,
 		output: `function any_fn(){console.log(1)}`
+	},
+
+	{
+		description: 'parenthesizes unused object literal',
+		input: `
+			function wrapper () {
+				var any_var = {
+					prop_1: any_value,
+					prop_2: any_fn()
+				}
+			}`,
+		// TODO `function wrapper(){any_fn()}`
+		output: `function wrapper(){({prop_1:any_value,prop_2:any_fn()})}`
 	}
 ];

@@ -81,6 +81,9 @@ export default class VariableDeclaration extends Node {
 
 				// we have a situation like `var unused = x()` — need to preserve `x()`
 				code.overwrite( c, declarator.init.start, first ? '' : ';' );
+				if (declarator.init.type === 'ObjectExpression') {
+					declarator.init.parenthesize( code );
+				}
 				needsKeyword = true;
 			} else {
 				declarator.minify( code, chars );
