@@ -46,7 +46,8 @@ export default class VariableDeclaration extends Node {
 			let index = this.parent.body.indexOf( this ) + 1;
 			do {
 				const next = this.parent.body[ index ];
-				if ( next && next.type === 'VariableDeclaration' && compatibleDeclarations( next.kind, this.kind ) ) {
+				if ( next && next.type === 'VariableDeclaration' && compatibleDeclarations( next.kind, this.kind ) &&
+						!next.declarations.some(d => d.init && d.init.type === 'FunctionExpression') ) {
 					declarations.push( ...next.declarations );
 					next.collapsed = true;
 				} else {

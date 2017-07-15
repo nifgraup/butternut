@@ -93,6 +93,17 @@ module.exports = [
 	},
 
 	{
+		description: 'unused anonymous function declaration is removed',
+		input: `
+			function foo () {
+				var a = before();
+				var b = function () {}
+				var c = after();
+			}`,
+		output: `function foo(){before();after()}`
+	},
+
+	{
 		description: 'removes curlies around else-block in if-statement with falsy condition',
 		input: `
 			if ( "development" === "production" ) {
