@@ -174,5 +174,14 @@ module.exports = [
 			}`,
 		// TODO `function wrapper(){any_fn()}`
 		output: `function wrapper(){({prop_1:any_value,prop_2:any_fn()})}`
+	},
+
+	{
+		description: 'parenthesizes object literal when a method is called on it',
+		input: `
+			function wrapper () {
+				var any_variable = {}.toString()
+			}`,
+		output: `function wrapper(){({}.toString())}`
 	}
 ];
