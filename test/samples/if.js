@@ -196,6 +196,18 @@ module.exports = [
 	},
 
 	{
+		description: 'minifies nested if statements with empty consequent without throwing an error',
+		input: `
+			if ( any_condition_1 )
+				if ( !any_condition_2 )
+					{}
+				else
+					any_fn_2()`,
+		// TODO `any_condition_1&&any_condition_2&&any_fn_2()`
+		output: `any_condition_1&&any_condition_2&&(any_fn_2())`
+	},
+
+	{
 		description: 'removes statement in empty if block if possible',
 		input: `if ( foo ) {}`,
 		output: ``

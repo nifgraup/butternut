@@ -129,9 +129,14 @@ export default class IfStatement extends Node {
 		);
 
 		// TODO what if nodes in the consequent are skipped...
-		const shouldParenthesiseConsequent = this.consequent.type === 'BlockStatement' ?
-			( this.consequent.body.length === 1 ? this.consequent.body[0].getPrecedence() < targetPrecedence : true ) :
-			this.consequent.getPrecedence() < targetPrecedence;
+		let shouldParenthesiseConsequent;
+		if ( this.consequent.type === 'IfStatement' ) {
+			shouldParenthesiseConsequent = false;
+		} else if ( this.consequent.type === 'BlockStatement' ) {
+			shouldParenthesiseConsequent = this.consequent.body.length === 1 ? this.consequent.body[0].getPrecedence() < targetPrecedence : true;
+		} else {
+			shouldParenthesiseConsequent = this.consequent.getPrecedence() < targetPrecedence;
+		}
 
 		// special case – empty consequent
 		if ( this.consequent.isEmpty() ) {
